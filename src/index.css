@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Font Styles */
+.school-font {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+}
+
+.navigation-font {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Remove link styling for navigation */
+.nav-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.nav-link:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Remove all default link styling from header */
+header a {
+  text-decoration: none !important;
+  color: white;
+}
+
+header a:hover {
+  text-decoration: none !important;
+}
+
+/* Footer link styling - remove underline and blue color */
+footer a.footer-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+footer a.footer-link:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Navigation hover effects */
+.nav-link {
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient 8s ease infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
