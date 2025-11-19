@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// Remove this line: import "./index.css";
+import logo from '../assets/logo.png'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,17 +23,24 @@ const Header = () => {
           <div className="flex items-center space-x-3">
             <div className="relative group">
               {/* Logo Image Container */}
-              {/* <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-105 transition-all duration-300 border-2 border-blue-300"> */}
-                {/* <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">ND</span>
-                </div> */}
-              {/* </div> */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl blur opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="w-40 h-40 bg-white rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-105 transition-all duration-300 border-2 border-blue-300 overflow-hidden">
+                <img 
+                  src={logo} // Update this path to your actual logo image
+                  alt="Nava Deep School Logo"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback if image fails to load
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                
+              </div>
             </div>
             
             {/* School Name - Hidden on mobile, visible on desktop */}
             <div className={`hidden md:block transition-all duration-500 ${isScrolled ? 'opacity-100' : 'opacity-100'}`}>
-              <h1 className="text-lg font-bold text-white leading-tight">Nava Deep<br />Primary & High School</h1>
+              <h1 className="text-lg font-bold text-white leading-tight school-font">Nava Deep<br />Primary & High School</h1>
               <p className="text-xs text-blue-200 font-medium">Established 1988</p>
             </div>
           </div>
@@ -80,8 +87,19 @@ const Header = () => {
           <div className="flex flex-col items-center justify-center h-full space-y-8">
             {/* Mobile Logo */}
             <div className="mb-8">
-              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center">
+              <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4 overflow-hidden">
+                <img 
+                  src="/logo.png" // Update this path to your actual logo image
+                  alt="Nava Deep School Logo"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback if image fails to load
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                {/* Fallback logo - shown if image fails to load */}
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center hidden">
                   <span className="text-white font-bold">ND</span>
                 </div>
               </div>

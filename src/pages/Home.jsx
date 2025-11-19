@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react';
-import { FaGraduationCap, FaBook, FaUsers, FaTrophy, FaArrowLeft, FaArrowRight, FaPlayCircle, FaCalendarAlt, FaMapMarkerAlt, FaPhone, FaStar, FaAward, FaUserGraduate, FaChalkboardTeacher, FaFlask, FaMusic, FaFutbol, FaPalette, FaQuoteLeft, FaLightbulb, FaHistory, FaHeart } from 'react-icons/fa';
-import n1 from '../assets/n1.jpeg'
-import n2 from '../assets/n2.jpeg'
-import n3 from '../assets/n3.jpeg'
-import n4 from '../assets/n4.jpeg'
+import { 
+  FaGraduationCap, FaBook, FaUsers, FaTrophy, FaArrowLeft, FaArrowRight, 
+  FaCalendarAlt, FaMapMarkerAlt, FaChalkboardTeacher, FaStar, FaAward, 
+  FaUserGraduate, FaFlask, FaMusic, FaFutbol, FaPalette, FaQuoteLeft, 
+  FaLightbulb, FaHistory, FaHeart, FaShieldAlt, FaBrain, FaHandsHelping,
+  FaSeedling, FaRocket, FaGem
+} from 'react-icons/fa';
+import n1 from '../assets/n1.jpeg';
+import n2 from '../assets/n2.jpeg';
+import n3 from '../assets/n3.jpeg';
+import n4 from '../assets/n4.jpeg';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const carouselImages = [
     {
@@ -14,78 +25,147 @@ const Home = () => {
       image: n3,
       title: "Welcome to Nava Deep School",
       subtitle: "Excellence in Education Since 1988",
-      highlight: "Nurturing Tomorrow's Leaders Today"
+      highlight: "Nurturing Tomorrow's Leaders Today",
+      badge: "Premier Educational Institution",
+      color: "blue"
     },
     {
       id: 2,
       image: n4,
       title: "Modern Learning Environment",
       subtitle: "State-of-the-art Facilities",
-      highlight: "Innovative Teaching Methods"
+      highlight: "Innovative Teaching Methods",
+      badge: "Future Ready Education",
+      color: "green"
     },
     {
       id: 3,
       image: n2,
       title: "Holistic Development",
       subtitle: "Nurturing Future Leaders",
-      highlight: "Academic & Co-curricular Excellence"
+      highlight: "Academic & Co-curricular Excellence",
+      badge: "All-Round Excellence",
+      color: "purple"
     }
   ];
 
   const features = [
     {
-      icon: <FaGraduationCap className="text-4xl text-blue-600" />,
+      icon: <FaGraduationCap className="text-4xl" />,
       title: "Qualified Faculty",
-      description: "Experienced and dedicated teaching staff",
-      stats: "50+ Teachers"
+      description: "Experienced and dedicated teaching staff committed to student success",
+      stats: "50+ Certified Teachers",
+      color: "from-blue-500 to-cyan-500",
+      bgColor: "blue"
     },
     {
-      icon: <FaBook className="text-4xl text-green-600" />,
+      icon: <FaBook className="text-4xl" />,
       title: "Modern Curriculum",
-      description: "CBSE curriculum with innovative teaching methods",
-      stats: "Smart Classes"
+      description: "CBSE curriculum enhanced with innovative teaching methodologies",
+      stats: "Smart Digital Classes",
+      color: "from-green-500 to-emerald-500",
+      bgColor: "green"
     },
     {
-      icon: <FaUsers className="text-4xl text-purple-600" />,
+      icon: <FaUsers className="text-4xl" />,
       title: "Personal Attention",
-      description: "Small class sizes for individual focus",
-      stats: "25:1 Ratio"
+      description: "Small class sizes ensuring individual focus and growth",
+      stats: "25:1 Student Ratio",
+      color: "from-purple-500 to-pink-500",
+      bgColor: "purple"
     },
     {
-      icon: <FaTrophy className="text-4xl text-yellow-600" />,
+      icon: <FaTrophy className="text-4xl" />,
       title: "Sports & Arts",
-      description: "Comprehensive co-curricular activities",
-      stats: "15+ Sports"
+      description: "Comprehensive co-curricular programs for holistic development",
+      stats: "15+ Sports Disciplines",
+      color: "from-amber-500 to-orange-500",
+      bgColor: "amber"
     }
   ];
 
   const achievements = [
-    { icon: <FaAward />, number: "100%", text: "Board Results" },
-    { icon: <FaUserGraduate />, number: "2000+", text: "Alumni Network" },
-    { icon: <FaChalkboardTeacher />, number: "35+", text: "Years Experience" },
-    { icon: <FaStar />, number: "50+", text: "Awards Won" }
+    { 
+      icon: <FaAward className="text-2xl" />, 
+      number: "100%", 
+      text: "Board Results",
+      subtitle: "Consistent Excellence",
+      color: "from-yellow-400 to-amber-500"
+    },
+    { 
+      icon: <FaUserGraduate className="text-2xl" />, 
+      number: "2000+", 
+      text: "Alumni Network",
+      subtitle: "Global Community",
+      color: "from-blue-400 to-cyan-500"
+    },
+    { 
+      icon: <FaChalkboardTeacher className="text-2xl" />, 
+      number: "35+", 
+      text: "Years Experience",
+      subtitle: "Trusted Legacy",
+      color: "from-green-400 to-emerald-500"
+    },
+    { 
+      icon: <FaStar className="text-2xl" />, 
+      number: "50+", 
+      text: "Awards Won",
+      subtitle: "Recognized Excellence",
+      color: "from-purple-400 to-pink-500"
+    }
   ];
 
   const programs = [
     {
-      icon: <FaFlask className="text-3xl text-blue-500" />,
+      icon: <FaFlask className="text-3xl" />,
       title: "Science Labs",
-      description: "Well-equipped laboratories for physics, chemistry, and biology with modern equipment"
+      description: "Well-equipped laboratories for physics, chemistry, and biology with modern equipment and safety protocols",
+      color: "blue"
     },
     {
-      icon: <FaMusic className="text-3xl text-green-500" />,
+      icon: <FaMusic className="text-3xl" />,
       title: "Performing Arts",
-      description: "Music, dance, and drama programs to foster creative expression"
+      description: "Music, dance, and drama programs to foster creative expression and artistic talent",
+      color: "green"
     },
     {
-      icon: <FaFutbol className="text-3xl text-purple-500" />,
+      icon: <FaFutbol className="text-3xl" />,
       title: "Sports Academy",
-      description: "Professional coaching in cricket, basketball, swimming, and athletics"
+      description: "Professional coaching in cricket, basketball, swimming, and athletics with modern facilities",
+      color: "purple"
     },
     {
-      icon: <FaPalette className="text-3xl text-red-500" />,
+      icon: <FaPalette className="text-3xl" />,
       title: "Visual Arts",
-      description: "Drawing, painting, and craft workshops for artistic development"
+      description: "Drawing, painting, and craft workshops for artistic development and creative thinking",
+      color: "red"
+    }
+  ];
+
+  const legacyHighlights = [
+    {
+      icon: <FaLightbulb className="text-3xl" />,
+      title: "The New Light",
+      description: "Nava Deep, meaning 'New Light', emerged as a ray of hope bringing strength to handle life's obstacles through education.",
+      color: "amber"
+    },
+    {
+      icon: <FaHistory className="text-3xl" />,
+      title: "Humble Beginnings",
+      description: "Started as Lovely Baby Care Center in a small rented property at Basavanapura Main Road.",
+      color: "orange"
+    },
+    {
+      icon: <FaHeart className="text-3xl" />,
+      title: "Visionary Founders",
+      description: "Built on the vision of Mrs. Lovely Bheemaiah and Mr. Bheemaiah, supported by Founder Late Smt. C.G. Nanjamma.",
+      color: "red"
+    },
+    {
+      icon: <FaSeedling className="text-3xl" />,
+      title: "Growth & Expansion",
+      description: "Transformed from a care center to a full-fledged educational institution with continuous growth.",
+      color: "green"
     }
   ];
 
@@ -102,53 +182,71 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const getColorClasses = (color, type = 'bg') => {
+    const colors = {
+      blue: type === 'bg' ? 'from-blue-500 to-blue-700' : 
+            type === 'text' ? 'text-blue-600' : 'border-blue-200',
+      green: type === 'bg' ? 'from-green-500 to-green-700' : 
+             type === 'text' ? 'text-green-600' : 'border-green-200',
+      purple: type === 'bg' ? 'from-purple-500 to-purple-700' : 
+              type === 'text' ? 'text-purple-600' : 'border-purple-200',
+      amber: type === 'bg' ? 'from-amber-500 to-amber-700' : 
+             type === 'text' ? 'text-amber-600' : 'border-amber-200',
+      orange: type === 'bg' ? 'from-orange-500 to-orange-700' : 
+              type === 'text' ? 'text-orange-600' : 'border-orange-200',
+      red: type === 'bg' ? 'from-red-500 to-red-700' : 
+           type === 'text' ? 'text-red-600' : 'border-red-200'
+    };
+    return colors[color] || colors.blue;
+  };
+
   return (
     <div className="pt-20">
       {/* Hero Carousel Section */}
       <section className="relative h-screen overflow-hidden">
         <div 
-          className="flex transition-transform duration-500 ease-in-out h-full"
+          className="flex transition-transform duration-700 ease-in-out h-full"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
-          {carouselImages.map((slide) => (
+          {carouselImages.map((slide, index) => (
             <div key={slide.id} className="w-full h-full flex-shrink-0 relative">
               <img 
                 src={slide.image} 
                 alt={slide.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/20 flex items-center justify-center">
+              <div className={`absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 flex items-center justify-center`}>
                 <div className="text-white text-center px-4 md:px-12 max-w-6xl">
-                  <div className="mb-6 flex justify-center">
-                    <span className="bg-blue-600/90 text-white px-6 py-3 rounded-full text-sm navigation-font tracking-wide uppercase">
-                      Premier Educational Institution
+                  <div className="mb-8 flex justify-center">
+                    <span className={`bg-${slide.color}-600/90 text-white px-8 py-4 rounded-full text-sm navigation-font tracking-widest uppercase border border-${slide.color}-400/50 backdrop-blur-sm animate-pulse`}>
+                      {slide.badge}
                     </span>
                   </div>
-                  <h1 className="text-5xl md:text-7xl font-bold mb-6 school-font leading-tight animate-fade-in-up">
+                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 school-font leading-tight animate-fade-in-up">
                     {slide.title}
                   </h1>
-                  <p className="text-xl md:text-2xl mb-6 navigation-font text-gray-200 animate-fade-in-up delay-200">
+                  <p className="text-xl md:text-2xl lg:text-3xl mb-8 navigation-font text-gray-200 animate-fade-in-up delay-200">
                     {slide.subtitle}
                   </p>
-                  <div className="flex justify-center items-center space-x-3 mb-8 animate-fade-in-up delay-400">
-                    <div className="w-16 h-1 bg-blue-500 rounded-full"></div>
-                    <p className="text-lg md:text-xl navigation-font text-blue-300 font-semibold">
+                  <div className="flex justify-center items-center space-x-4 mb-8 animate-fade-in-up delay-400">
+                    <div className="w-20 h-1 bg-gradient-to-r from-transparent to-white rounded-full"></div>
+                    <p className="text-lg md:text-xl navigation-font text-white font-semibold bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm border border-white/20">
                       {slide.highlight}
                     </p>
-                    <div className="w-16 h-1 bg-blue-500 rounded-full"></div>
+                    <div className="w-20 h-1 bg-gradient-to-l from-transparent to-white rounded-full"></div>
                   </div>
                   <div className="flex justify-center space-x-8 animate-fade-in-up delay-600">
-                    <div className="flex items-center space-x-3 text-gray-200">
+                    <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
                       <FaCalendarAlt className="text-blue-400 text-xl" />
-                      <span className="navigation-font text-lg">Since 1988</span>
+                      <span className="navigation-font">Since 1988</span>
                     </div>
-                    <div className="flex items-center space-x-3 text-gray-200">
+                    <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
                       <FaMapMarkerAlt className="text-green-400 text-xl" />
-                      <span className="navigation-font text-lg">Prime Location</span>
+                      <span className="navigation-font">Prime Location</span>
                     </div>
-                    <div className="flex items-center space-x-3 text-gray-200">
+                    <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
                       <FaChalkboardTeacher className="text-purple-400 text-xl" />
-                      <span className="navigation-font text-lg">Expert Faculty</span>
+                      <span className="navigation-font">Expert Faculty</span>
                     </div>
                   </div>
                 </div>
@@ -160,13 +258,13 @@ const Home = () => {
         {/* Carousel Controls */}
         <button 
           onClick={prevSlide}
-          className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30"
+          className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30 shadow-2xl"
         >
           <FaArrowLeft className="text-2xl" />
         </button>
         <button 
           onClick={nextSlide}
-          className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30"
+          className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30 shadow-2xl"
         >
           <FaArrowRight className="text-2xl" />
         </button>
@@ -177,7 +275,7 @@ const Home = () => {
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-4 h-4 rounded-full transition-all duration-300 border-2 border-white ${
+              className={`w-4 h-4 rounded-full transition-all duration-300 border-2 border-white shadow-lg ${
                 index === currentSlide ? 'bg-white scale-125' : 'bg-transparent hover:bg-white/50'
               }`}
             />
@@ -185,32 +283,44 @@ const Home = () => {
         </div>
 
         {/* Scroll Indicator */}
-        {/* <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2"></div>
+            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
           </div>
-        </div> */}
+        </div>
       </section>
 
       {/* Achievements Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 school-font">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-500">Achievements</span>
+            </h2>
+            <p className="text-xl text-gray-300 navigation-font max-w-3xl mx-auto">
+              Decades of excellence and countless success stories that make us proud
+            </p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {achievements.map((achievement, index) => (
               <div 
                 key={index}
-                className="text-center transform hover:scale-105 transition-all duration-300"
+                className="text-center transform hover:scale-105 transition-all duration-500 group"
               >
-                <div className="flex justify-center mb-4">
-                  <div className="text-3xl text-yellow-300 bg-white/20 p-4 rounded-full">
+                <div className="flex justify-center mb-6">
+                  <div className={`p-4 rounded-2xl bg-gradient-to-br ${achievement.color} text-white shadow-2xl group-hover:shadow-3xl transition-all duration-500 transform group-hover:rotate-12`}>
                     {achievement.icon}
                   </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold school-font mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2 school-font">
                   {achievement.number}
                 </div>
-                <div className="navigation-font text-blue-100">
+                <div className="text-lg font-semibold text-white mb-1 navigation-font">
                   {achievement.text}
+                </div>
+                <div className="text-sm text-gray-300 navigation-font">
+                  {achievement.subtitle}
                 </div>
               </div>
             ))}
@@ -219,6 +329,7 @@ const Home = () => {
       </section>
 
       {/* Evolution of Nava Deep Section */}
+       {/* Evolution of Nava Deep Section */}
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-600"></div>
         <div className="container mx-auto px-4">
@@ -311,36 +422,44 @@ const Home = () => {
       </section>
 
       {/* Welcome Section */}
-      <section className="py-20 bg-gray-50 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-600"></div>
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative">
-              <img 
-                src={n1}
-                alt="School Campus"
-                className="rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-gradient-to-br from-blue-600 to-purple-700 text-white p-8 rounded-2xl shadow-2xl">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-700">
+                <img 
+                  src={n1}
+                  alt="School Campus"
+                  className="w-full h-auto"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              </div>
+              
+              {/* Floating Stats */}
+              <div className="absolute -bottom-6 -left-6 bg-gradient-to-br from-blue-600 to-purple-700 text-white p-6 rounded-2xl shadow-2xl transform hover:scale-110 transition-transform duration-300">
                 <div className="text-center">
-                  <div className="text-4xl font-bold school-font mb-2">35+</div>
-                  <div className="text-sm navigation-font tracking-wide">Years of Excellence</div>
+                  <div className="text-3xl font-bold school-font mb-1">35+</div>
+                  <div className="text-xs navigation-font tracking-wide">Years of Excellence</div>
                 </div>
               </div>
-              <div className="absolute -top-6 -right-6 bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 rounded-2xl shadow-2xl">
+              
+              <div className="absolute -top-6 -right-6 bg-gradient-to-br from-green-500 to-emerald-600 text-white p-5 rounded-2xl shadow-2xl transform hover:scale-110 transition-transform duration-300">
                 <div className="text-center">
                   <div className="text-2xl font-bold school-font mb-1">100%</div>
-                  <div className="text-xs navigation-font">Results</div>
+                  <div className="text-xs navigation-font">Success Rate</div>
                 </div>
               </div>
             </div>
-            <div>
+            
+            <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <div className="mb-6">
-                <span className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm navigation-font font-semibold">
+                <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full text-sm navigation-font font-semibold shadow-lg">
                   About Our Institution
                 </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 school-font leading-tight">
-                Shaping Young Minds for a <span className="text-blue-600">Brighter Future</span>
+                Shaping Young Minds for a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Brighter Future</span>
               </h2>
               <p className="text-lg text-gray-600 mb-6 navigation-font leading-relaxed">
                 Established in 1988, Nava Deep School has been a beacon of excellence in education, 
@@ -352,56 +471,68 @@ const Home = () => {
                 balances academic excellence with co-curricular activities, we provide an 
                 environment where students can thrive and excel in all aspects of life.
               </p>
-              {/* <div className="flex space-x-4">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg transition-all duration-300 navigation-font font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                  Discover Our Campus
-                </button>
-               
-              </div> */}
+              
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-200">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="navigation-font text-sm text-gray-700">Safe Environment</span>
+                </div>
+                <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-200">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="navigation-font text-sm text-gray-700">Modern Facilities</span>
+                </div>
+                <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-200">
+                  <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                  <span className="navigation-font text-sm text-gray-700">Expert Faculty</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50"></div>
+      <section className="py-20 bg-gradient-to-br from-slate-900 to-blue-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]"></div>
         <div className="container mx-auto px-4 relative">
           <div className="text-center mb-16">
-            <div className="mb-4">
-              <span className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm navigation-font font-semibold">
+            <div className="mb-6">
+              <span className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-full text-sm navigation-font font-semibold shadow-lg">
                 Our Strengths
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 school-font">
-              Why Choose <span className="text-blue-600">Nava Deep?</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 school-font">
+              Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Nava Deep?</span>
             </h2>
-            <p className="text-xl text-gray-600 navigation-font max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 navigation-font max-w-3xl mx-auto">
               We provide a nurturing environment that fosters academic excellence, 
               character building, and overall personality development for every student.
             </p>
           </div>
+          
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div 
                 key={index}
-                className="text-center p-8 rounded-2xl bg-white shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border border-gray-100 group relative overflow-hidden"
+                className="group relative"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
-                <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+                <div className="relative bg-slate-800/50 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-500 transform group-hover:-translate-y-4 group-hover:scale-105 h-full">
                   <div className="flex justify-center mb-6">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 group-hover:from-blue-100 group-hover:to-purple-100 transition-all duration-300">
+                    <div className={`p-4 rounded-2xl bg-gradient-to-br ${feature.color} text-white shadow-2xl transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500`}>
                       {feature.icon}
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-4 school-font group-hover:text-blue-600 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-white mb-4 school-font text-center group-hover:text-cyan-300 transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 navigation-font mb-4 leading-relaxed">
+                  <p className="text-gray-300 navigation-font mb-6 leading-relaxed text-center">
                     {feature.description}
                   </p>
-                  <div className="text-blue-600 font-semibold navigation-font text-sm">
-                    {feature.stats}
+                  <div className="text-center">
+                    <span className="inline-block bg-white/10 text-cyan-300 font-semibold navigation-font text-sm px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+                      {feature.stats}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -411,37 +542,40 @@ const Home = () => {
       </section>
 
       {/* Special Programs Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-20 bg-gradient-to-br from-white to-emerald-50 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-green-600"></div>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <div className="mb-4">
-              <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm navigation-font font-semibold">
+            <div className="mb-6">
+              <span className="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-3 rounded-full text-sm navigation-font font-semibold shadow-lg">
                 Special Programs
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 school-font">
-              Beyond <span className="text-green-600">Classroom Learning</span>
+              Beyond <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-600">Classroom Learning</span>
             </h2>
             <p className="text-xl text-gray-600 navigation-font max-w-3xl mx-auto">
               Our comprehensive programs ensure all-round development and exposure to diverse fields
             </p>
           </div>
+          
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {programs.map((program, index) => (
               <div 
                 key={index}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group"
+                className="group relative"
               >
-                <div className="p-8 text-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-green-500/10 rounded-3xl blur-lg group-hover:blur-xl transition-all duration-500"></div>
+                <div className="relative bg-white rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 transform group-hover:-translate-y-4 border border-emerald-100 group-hover:border-emerald-200 h-full">
                   <div className="flex justify-center mb-6">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-green-50 to-blue-50 group-hover:from-green-100 group-hover:to-blue-100 transition-all duration-300">
+                    <div className={`p-4 rounded-2xl bg-gradient-to-br from-${program.color}-100 to-${program.color}-50 group-hover:from-${program.color}-200 group-hover:to-${program.color}-100 transition-all duration-300`}>
                       {program.icon}
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-4 school-font group-hover:text-green-600 transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-gray-800 mb-4 school-font text-center group-hover:text-emerald-600 transition-colors duration-300">
                     {program.title}
                   </h3>
-                  <p className="text-gray-600 navigation-font leading-relaxed">
+                  <p className="text-gray-600 navigation-font leading-relaxed text-center">
                     {program.description}
                   </p>
                 </div>
