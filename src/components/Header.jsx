@@ -25,7 +25,7 @@ const Header = () => {
               {/* Logo Image Container */}
               <div className="w-40 h-40 bg-white rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-105 transition-all duration-300 border-2 border-blue-300 overflow-hidden">
                 <img 
-                  src={logo} // Update this path to your actual logo image
+                  src={logo} 
                   alt="Nava Deep School Logo"
                   className="w-full h-full object-cover"
                   onError={(e) => {

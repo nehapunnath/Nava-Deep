@@ -206,15 +206,7 @@ const Contact = () => {
                           Bangalore - 560036
                         </p>
                       </div>
-                      <a 
-                        href="https://maps.google.com/?q=1st+Cross+road+Gayathri+layout+Basavanapura+Main+Road+K.R.+Puram+Bangalore+560036"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center space-x-2 bg-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
-                      >
-                        <FaMapMarkerAlt />
-                        <span>Open in Google Maps</span>
-                      </a>
+                   
                     </div>
                   </div>
                 </div>

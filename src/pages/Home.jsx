@@ -10,6 +10,15 @@ import n1 from '../assets/n1.jpeg';
 import n2 from '../assets/n2.jpeg';
 import n3 from '../assets/n3.jpeg';
 import n4 from '../assets/n4.jpeg';
+import n5 from '../assets/n5.jpeg'
+import n6 from '../assets/n6.jpeg'
+import n7 from '../assets/n7.jpeg'
+import n8 from '../assets/n8.jpeg'
+import n9 from '../assets/n9.jpeg'
+import n10 from '../assets/n10.jpeg'
+import n11 from '../assets/n11.jpeg'
+import n12 from '../assets/n12.jpeg'
+
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -282,12 +291,7 @@ const Home = () => {
           ))}
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
-          </div>
-        </div>
+       
       </section>
 
       {/* Achievements Section */}
@@ -328,7 +332,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Evolution of Nava Deep Section */}
        {/* Evolution of Nava Deep Section */}
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-600"></div>
@@ -584,6 +587,86 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Gallery Section */}
+<section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 school-font">
+        Campus <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Gallery</span>
+      </h2>
+      <p className="text-xl text-gray-600 navigation-font max-w-3xl mx-auto">
+        Glimpses of life at Nava Deep School
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n6} 
+          alt="School Campus" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n7} 
+          alt="Student Activities" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n5} 
+          alt="Sports Events" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n8} 
+          alt="Science Lab" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n9} 
+          alt="Classroom" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n10} 
+          alt="Library" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n11} 
+          alt="Art Class" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      
+      <div className="rounded-2xl overflow-hidden shadow-lg">
+        <img 
+          src={n12} 
+          alt="Playground" 
+          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+    </div>
+  </div>
+</section>
     </div>
   );
 };
