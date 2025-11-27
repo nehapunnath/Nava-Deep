@@ -31,7 +31,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="/about" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group footer-link">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 group-hover:scale-150 transition-transform duration-300"></span>
+                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3 group-hover:scale-150 transition-transform duration-300"></span>
                   About Us
                 </a>
               </li>
@@ -58,6 +58,12 @@ const Footer = () => {
                 <a href="/contact" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group footer-link">
                   <span className="w-2 h-2 bg-indigo-500 rounded-full mr-3 group-hover:scale-150 transition-transform duration-300"></span>
                   Contact 
+                </a>
+              </li>
+               <li>
+                <a href="/login" className="text-gray-300 hover:text-white transition-colors duration-300 flex items-center group footer-link">
+                  <span className="w-2 h-2 bg-orange-500 rounded-full mr-3 group-hover:scale-150 transition-transform duration-300"></span>
+                  Login
                 </a>
               </li>
             </ul>
