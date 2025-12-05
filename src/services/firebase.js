@@ -9,8 +9,9 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBz5yP2V9HxKrwPZAPcfWLiFh33NezdbLI",
+   apiKey: "AIzaSyBz5yP2V9HxKrwPZAPcfWLiFh33NezdbLI",
   authDomain: "nava-deep.firebaseapp.com",
+  databaseURL: "https://nava-deep-default-rtdb.firebaseio.com",
   projectId: "nava-deep",
   storageBucket: "nava-deep.firebasestorage.app",
   messagingSenderId: "609397945454",
