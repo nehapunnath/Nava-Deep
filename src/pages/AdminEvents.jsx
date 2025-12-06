@@ -50,19 +50,22 @@ const AdminEvents = () => {
     loadData();
   }, []);
 
-  // Handle image selection
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const totalImages = formData.images.filter(img => img instanceof File).length + files.length;
+ const handleImageChange = (e) => {
+    const newFiles = Array.from(e.target.files);
 
-    if (totalImages > 3) {
-      alert('You can only upload up to 3 images');
+    // Count only new File objects (not existing URLs)
+    const currentNewFilesCount = formData.images.filter(img => img instanceof File).length;
+    const totalAfterAdding = currentNewFilesCount + newFiles.length;
+
+    if (totalAfterAdding > 3) {
+      alert(`You can only upload up to 3 images total. Currently have ${formData.images.length}, trying to add ${newFiles.length}.`);
       return;
     }
 
+    // Keep existing images (both URLs and previous Files), just append new files
     setFormData(prev => ({
       ...prev,
-      images: [...prev.images.filter(img => !(img instanceof File)), ...files]
+      images: [...prev.images.filter(img => img instanceof File), ...newFiles] // Only keep previously selected NEW files, add new ones
     }));
   };
 
@@ -131,12 +134,12 @@ const AdminEvents = () => {
     setEditingUpcomingEvent(null);
   };
 
-  const editEvent = (event) => {
+    const editEvent = (event) => {
     setFormData({
-      title: event.title,
-      date: event.date,
-      description: event.description,
-      images: event.images || [] // These are URLs (strings)
+      title: event.title || '',
+      date: event.date || '',
+      description: event.description || '',
+      images: event.images || [] // ← These are string URLs (existing images)
     });
     setEditingEvent(event);
     setShowEventForm(true);

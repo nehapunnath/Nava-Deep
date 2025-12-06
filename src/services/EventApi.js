@@ -1,16 +1,13 @@
 // src/api/eventApi.js
 import base_urls from "./base_urls";
 
-// No token, no headers — fully open
 const getHeaders = () => ({
   "Content-Type": "application/json",
 });
 
 const getMultipartHeaders = () => ({
-  // Don't set Content-Type for FormData — browser sets it automatically
 });
 
-// ===================== MEMORABLE EVENTS =====================
 
 export const fetchAllEvents = async () => {
   try {
@@ -35,17 +32,27 @@ export const saveEvent = async (eventData, eventId = null) => {
   formData.append("date", eventData.date);
   formData.append("description", eventData.description);
 
-  // Only send new image files
-  eventData.images.forEach((img) => {
-    if (img instanceof File) {
-      formData.append("images", img);
-    }
+  // Separate: existing image URLs (strings) vs new files
+  const existingImageUrls = eventData.images
+    .filter(img => typeof img === 'string');
+  
+  const newImageFiles = eventData.images
+    .filter(img => img instanceof File);
+
+  // Send existing images as JSON string
+  if (existingImageUrls.length > 0) {
+    formData.append("existingImages", JSON.stringify(existingImageUrls));
+  }
+
+  // Send new files
+  newImageFiles.forEach((file) => {
+    formData.append("images", file);
   });
 
   try {
     const response = await fetch(url, {
       method: isUpdate ? "PUT" : "POST",
-      headers: getMultipartHeaders(),
+      // Remove headers → let browser set multipart boundary
       body: formData,
     });
 
