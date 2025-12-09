@@ -4,31 +4,71 @@ import {
   FaCalendarAlt, FaMapMarkerAlt, FaChalkboardTeacher, FaStar, FaAward, 
   FaUserGraduate, FaFlask, FaMusic, FaFutbol, FaPalette, FaQuoteLeft, 
   FaLightbulb, FaHistory, FaHeart, FaShieldAlt, FaBrain, FaHandsHelping,
-  FaSeedling, FaRocket, FaGem
+  FaSeedling, FaRocket, FaGem, FaSpinner
 } from 'react-icons/fa';
+import { fetchCarousel, fetchGallery } from '../services/GalleryApi'; // Import API functions
 import n1 from '../assets/n1.jpeg';
 import n2 from '../assets/n2.jpeg';
 import n3 from '../assets/n3.jpeg';
 import n4 from '../assets/n4.jpeg';
-import n5 from '../assets/n5.jpeg'
-import n6 from '../assets/n6.jpeg'
-import n7 from '../assets/n7.jpeg'
-import n8 from '../assets/n8.jpeg'
-import n9 from '../assets/n9.jpeg'
-import n10 from '../assets/n10.jpeg'
-import n11 from '../assets/n11.jpeg'
-import n12 from '../assets/n12.jpeg'
-
+import n5 from '../assets/n5.jpeg';
+import n6 from '../assets/n6.jpeg';
+import n7 from '../assets/n7.jpeg';
+import n8 from '../assets/n8.jpeg';
+import n9 from '../assets/n9.jpeg';
+import n10 from '../assets/n10.jpeg';
+import n11 from '../assets/n11.jpeg';
+import n12 from '../assets/n12.jpeg';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [carouselData, setCarouselData] = useState([]);
+  const [galleryData, setGalleryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Fetch carousel and gallery data on component mount
   useEffect(() => {
-    setIsVisible(true);
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        // Fetch both carousel and gallery data in parallel
+        const [carouselRes, galleryRes] = await Promise.all([
+          fetchCarousel(),
+          fetchGallery()
+        ]);
+
+        if (carouselRes.success) {
+          setCarouselData(carouselRes.carousel || []);
+        } else {
+          console.error('Failed to load carousel:', carouselRes.error);
+          setCarouselData(getDefaultCarousel()); // Fallback to default data
+        }
+
+        if (galleryRes.success) {
+          setGalleryData(galleryRes.gallery || []);
+        } else {
+          console.error('Failed to load gallery:', galleryRes.error);
+          setGalleryData(getDefaultGallery()); // Fallback to default images
+        }
+      } catch (err) {
+        console.error('Network error:', err);
+        setError('Failed to load gallery data. Please check your connection.');
+        // Use fallback data
+        setCarouselData(getDefaultCarousel());
+        setGalleryData(getDefaultGallery());
+      } finally {
+        setLoading(false);
+        setIsVisible(true);
+      }
+    };
+
+    loadData();
   }, []);
 
-  const carouselImages = [
+  // Default carousel data in case API fails
+  const getDefaultCarousel = () => [
     {
       id: 1,
       image: n3,
@@ -57,6 +97,24 @@ const Home = () => {
       color: "purple"
     }
   ];
+
+  // Default gallery images in case API fails
+  const getDefaultGallery = () => [
+    { id: 1, image: n6, title: "School Campus" },
+    { id: 2, image: n7, title: "Student Activities" },
+    { id: 3, image: n5, title: "Sports Events" },
+    { id: 4, image: n8, title: "Science Lab" },
+    { id: 5, image: n9, title: "Classroom" },
+    { id: 6, image: n10, title: "Library" },
+    { id: 7, image: n11, title: "Art Class" },
+    { id: 8, image: n12, title: "Playground" }
+  ];
+
+  // Use carousel data from API or fallback
+  const carouselImages = carouselData.length > 0 ? carouselData : getDefaultCarousel();
+
+  // Use gallery data from API or fallback
+  const galleryImages = galleryData.length > 0 ? galleryData : getDefaultGallery();
 
   const features = [
     {
@@ -189,7 +247,7 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [carouselImages.length]);
 
   const getColorClasses = (color, type = 'bg') => {
     const colors = {
@@ -209,89 +267,134 @@ const Home = () => {
     return colors[color] || colors.blue;
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <FaSpinner className="animate-spin text-4xl text-blue-600 mx-auto mb-4" />
+          <p className="text-xl text-gray-600">Loading gallery data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error && carouselData.length === 0 && galleryData.length === 0) {
+    return (
+      <div className="pt-20 min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center p-8 bg-white rounded-2xl shadow-lg">
+          <div className="text-red-500 text-4xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Unable to Load Content</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-20">
       {/* Hero Carousel Section */}
       <section className="relative h-screen overflow-hidden">
-        <div 
-          className="flex transition-transform duration-700 ease-in-out h-full"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-        >
-          {carouselImages.map((slide, index) => (
-            <div key={slide.id} className="w-full h-full flex-shrink-0 relative">
-              <img 
-                src={slide.image} 
-                alt={slide.title}
-                className="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700"
-              />
-              <div className={`absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 flex items-center justify-center`}>
-                <div className="text-white text-center px-4 md:px-12 max-w-6xl">
-                  <div className="mb-8 flex justify-center">
-                    <span className={`bg-${slide.color}-600/90 text-white px-8 py-4 rounded-full text-sm navigation-font tracking-widest uppercase border border-${slide.color}-400/50 backdrop-blur-sm animate-pulse`}>
-                      {slide.badge}
-                    </span>
-                  </div>
-                  <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 school-font leading-tight animate-fade-in-up">
-                    {slide.title}
-                  </h1>
-                  <p className="text-xl md:text-2xl lg:text-3xl mb-8 navigation-font text-gray-200 animate-fade-in-up delay-200">
-                    {slide.subtitle}
-                  </p>
-                  <div className="flex justify-center items-center space-x-4 mb-8 animate-fade-in-up delay-400">
-                    <div className="w-20 h-1 bg-gradient-to-r from-transparent to-white rounded-full"></div>
-                    <p className="text-lg md:text-xl navigation-font text-white font-semibold bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm border border-white/20">
-                      {slide.highlight}
-                    </p>
-                    <div className="w-20 h-1 bg-gradient-to-l from-transparent to-white rounded-full"></div>
-                  </div>
-                  <div className="flex justify-center space-x-8 animate-fade-in-up delay-600">
-                    <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
-                      <FaCalendarAlt className="text-blue-400 text-xl" />
-                      <span className="navigation-font">Since 1988</span>
-                    </div>
-                    <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
-                      <FaMapMarkerAlt className="text-green-400 text-xl" />
-                      <span className="navigation-font">Prime Location</span>
-                    </div>
-                    <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
-                      <FaChalkboardTeacher className="text-purple-400 text-xl" />
-                      <span className="navigation-font">Expert Faculty</span>
+        {carouselImages.length > 0 ? (
+          <>
+            <div 
+              className="flex transition-transform duration-700 ease-in-out h-full"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {carouselImages.map((slide, index) => (
+                <div key={slide.id || index} className="w-full h-full flex-shrink-0 relative">
+                  <img 
+                    src={slide.image} 
+                    alt={slide.title || 'Carousel Slide'}
+                    className="w-full h-full object-cover transform scale-105 group-hover:scale-100 transition-transform duration-700"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30 flex items-center justify-center`}>
+                    <div className="text-white text-center px-4 md:px-12 max-w-6xl">
+                      {slide.badge && (
+                        <div className="mb-8 flex justify-center">
+                          <span className={`bg-${slide.color || 'blue'}-600/90 text-white px-8 py-4 rounded-full text-sm navigation-font tracking-widest uppercase border border-${slide.color || 'blue'}-400/50 backdrop-blur-sm animate-pulse`}>
+                            {slide.badge}
+                          </span>
+                        </div>
+                      )}
+                      <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 school-font leading-tight animate-fade-in-up">
+                        {slide.title || 'Welcome to Nava Deep School'}
+                      </h1>
+                      <p className="text-xl md:text-2xl lg:text-3xl mb-8 navigation-font text-gray-200 animate-fade-in-up delay-200">
+                        {slide.subtitle || 'Excellence in Education'}
+                      </p>
+                      {slide.highlight && (
+                        <div className="flex justify-center items-center space-x-4 mb-8 animate-fade-in-up delay-400">
+                          <div className="w-20 h-1 bg-gradient-to-r from-transparent to-white rounded-full"></div>
+                          <p className="text-lg md:text-xl navigation-font text-white font-semibold bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm border border-white/20">
+                            {slide.highlight}
+                          </p>
+                          <div className="w-20 h-1 bg-gradient-to-l from-transparent to-white rounded-full"></div>
+                        </div>
+                      )}
+                      <div className="flex justify-center space-x-8 animate-fade-in-up delay-600">
+                        <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
+                          <FaCalendarAlt className="text-blue-400 text-xl" />
+                          <span className="navigation-font">Since 1988</span>
+                        </div>
+                        <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
+                          <FaMapMarkerAlt className="text-green-400 text-xl" />
+                          <span className="navigation-font">Prime Location</span>
+                        </div>
+                        <div className="flex items-center space-x-3 text-gray-200 bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
+                          <FaChalkboardTeacher className="text-purple-400 text-xl" />
+                          <span className="navigation-font">Expert Faculty</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Carousel Controls */}
-        <button 
-          onClick={prevSlide}
-          className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30 shadow-2xl"
-        >
-          <FaArrowLeft className="text-2xl" />
-        </button>
-        <button 
-          onClick={nextSlide}
-          className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30 shadow-2xl"
-        >
-          <FaArrowRight className="text-2xl" />
-        </button>
+            {/* Carousel Controls */}
+            <button 
+              onClick={prevSlide}
+              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30 shadow-2xl"
+            >
+              <FaArrowLeft className="text-2xl" />
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm hover:scale-110 border border-white/30 shadow-2xl"
+            >
+              <FaArrowRight className="text-2xl" />
+            </button>
 
-        {/* Carousel Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
-          {carouselImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-4 h-4 rounded-full transition-all duration-300 border-2 border-white shadow-lg ${
-                index === currentSlide ? 'bg-white scale-125' : 'bg-transparent hover:bg-white/50'
-              }`}
-            />
-          ))}
-        </div>
-
-       
+            {/* Carousel Indicators */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
+              {carouselImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-4 h-4 rounded-full transition-all duration-300 border-2 border-white shadow-lg ${
+                    index === currentSlide ? 'bg-white scale-125' : 'bg-transparent hover:bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          // Fallback if no carousel data
+          <div className="w-full h-full bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center">
+            <div className="text-center text-white">
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 school-font">Welcome to Nava Deep School</h1>
+              <p className="text-xl md:text-2xl navigation-font">Excellence in Education Since 1988</p>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Achievements Section */}
@@ -332,7 +435,7 @@ const Home = () => {
         </div>
       </section>
 
-       {/* Evolution of Nava Deep Section */}
+      {/* Evolution of Nava Deep Section */}
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-600"></div>
         <div className="container mx-auto px-4">
@@ -358,35 +461,15 @@ const Home = () => {
 
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-3 gap-8 mb-12">
-              <div className="text-center p-6 rounded-2xl bg-amber-50 border border-amber-200">
-                <div className="flex justify-center mb-4">
-                  <FaLightbulb className="text-4xl text-amber-500" />
+              {legacyHighlights.map((item, index) => (
+                <div key={index} className="text-center p-6 rounded-2xl bg-amber-50 border border-amber-200">
+                  <div className="flex justify-center mb-4">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-3 school-font">{item.title}</h3>
+                  <p className="text-gray-600 navigation-font">{item.description}</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 school-font">The New Light</h3>
-                <p className="text-gray-600 navigation-font">
-                  Nava Deep, meaning 'New Light', emerged as a ray of hope bringing strength to handle life's obstacles through education.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 rounded-2xl bg-orange-50 border border-orange-200">
-                <div className="flex justify-center mb-4">
-                  <FaHistory className="text-4xl text-orange-500" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 school-font">Humble Beginnings</h3>
-                <p className="text-gray-600 navigation-font">
-                  Started as Lovely Baby Care Center in a small rented property at Basavanapura Main Road.
-                </p>
-              </div>
-              
-              <div className="text-center p-6 rounded-2xl bg-red-50 border border-red-200">
-                <div className="flex justify-center mb-4">
-                  <FaHeart className="text-4xl text-red-500" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 school-font">Visionary Founders</h3>
-                <p className="text-gray-600 navigation-font">
-                  Built on the vision of Mrs. Lovely Bheemaiah and Mr. Bheemaiah, supported by Founder Late Smt. C.G. Nanjamma.
-                </p>
-              </div>
+              ))}
             </div>
 
             <div className="prose prose-lg max-w-none text-gray-700 navigation-font leading-relaxed">
@@ -589,84 +672,53 @@ const Home = () => {
       </section>
 
       {/* Gallery Section */}
-<section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
-  <div className="container mx-auto px-4">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 school-font">
-        Campus <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Gallery</span>
-      </h2>
-      <p className="text-xl text-gray-600 navigation-font max-w-3xl mx-auto">
-        Glimpses of life at Nava Deep School
-      </p>
-    </div>
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 school-font">
+              Campus <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Gallery</span>
+            </h2>
+            <p className="text-xl text-gray-600 navigation-font max-w-3xl mx-auto">
+              Glimpses of life at Nava Deep School
+            </p>
+          </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n6} 
-          alt="School Campus" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n7} 
-          alt="Student Activities" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n5} 
-          alt="Sports Events" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n8} 
-          alt="Science Lab" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n9} 
-          alt="Classroom" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n10} 
-          alt="Library" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n11} 
-          alt="Art Class" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-      
-      <div className="rounded-2xl overflow-hidden shadow-lg">
-        <img 
-          src={n12} 
-          alt="Playground" 
-          className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
-        />
-      </div>
-    </div>
-  </div>
-</section>
+          {galleryImages.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {galleryImages.slice(0, 8).map((image, index) => (
+                <div key={image.id || index} className="rounded-2xl overflow-hidden shadow-lg">
+                  <img 
+                    src={image.image} 
+                    alt={image.title || `Gallery Image ${index + 1}`} 
+                    className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            // Fallback gallery if no API data
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {getDefaultGallery().slice(0, 8).map((image, index) => (
+                <div key={image.id} className="rounded-2xl overflow-hidden shadow-lg">
+                  <img 
+                    src={image.image} 
+                    alt={image.title} 
+                    className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {/* Show message if no gallery images */}
+          {galleryImages.length === 0 && !loading && (
+            <div className="text-center py-12">
+              <FaImages className="text-6xl text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600 navigation-font">No gallery images available yet.</p>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
