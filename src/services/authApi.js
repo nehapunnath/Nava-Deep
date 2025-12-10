@@ -1,7 +1,6 @@
 // src/api/authApi.js
-import { signInWithCustomToken } from "firebase/auth";
+import { signInWithCustomToken, signOut } from "firebase/auth";
 import { auth } from "./firebase"; 
-
 import base_urls from "./base_urls"
 
 // Helper: Save user session
@@ -12,9 +11,25 @@ const saveUserSession = (customToken, userData) => {
 
 // Helper: Remove session (logout)
 export const clearUserSession = () => {
-  localStorage.removeItem("customToken");
-  localStorage.removeItem("user");
-  auth.signOut();
+  try {
+    localStorage.removeItem("customToken");
+    localStorage.removeItem("user");
+    
+    // Clear any other session-related data
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('firebase:authUser:') || key.includes('session')) {
+        keysToRemove.push(key);
+      }
+    }
+    
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+    
+    console.log("Session cleared successfully");
+  } catch (error) {
+    console.error("Error clearing session:", error);
+  }
 };
 
 // Main Login Function
@@ -30,7 +45,7 @@ export const login = async (email, password) => {
 
     const data = await response.json();
 
-    if (!data.success) {
+    if (!response.ok || !data.success) {
       throw new Error(data.error || "Login failed");
     }
 
@@ -95,7 +110,56 @@ export const checkAuthStatus = async () => {
 
 // Logout
 export const logout = async () => {
-  await auth.signOut();
-  clearUserSession();
-  return { success: true };
+  try {
+    console.log("Starting logout process...");
+    
+    // Sign out from Firebase
+    if (auth.currentUser) {
+      await signOut(auth);
+      console.log("Firebase signout successful");
+    } else {
+      console.log("No Firebase user to sign out");
+    }
+    
+    // Clear local session
+    clearUserSession();
+    
+    console.log("Logout completed successfully");
+    
+    return { 
+      success: true, 
+      message: "Logged out successfully" 
+    };
+  } catch (error) {
+    console.error("Logout error:", error);
+    
+    // Even if there's an error, clear local session
+    clearUserSession();
+    
+    return { 
+      success: false, 
+      error: error.message || "An error occurred during logout" 
+    };
+  }
+};
+
+// Check if user is currently logged in
+export const isLoggedIn = () => {
+  const token = localStorage.getItem("customToken");
+  const user = localStorage.getItem("user");
+  
+  return !!(token && user);
+};
+
+// Get current user data
+export const getCurrentUser = () => {
+  try {
+    const userStr = localStorage.getItem("user");
+    if (!userStr) return null;
+    
+    return JSON.parse(userStr);
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return null;
+  }
 };

@@ -7,12 +7,15 @@ import {
   FaHome,
   FaUser,
   FaCog,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaSpinner
 } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { logout } from '../services/authApi'; // Adjust import path based on your structure
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -65,10 +68,44 @@ const Sidebar = () => {
     return location.pathname === path;
   };
 
-  const handleLogout = () => {
-    // Add your logout logic here
-    console.log('Logging out...');
-    // navigate('/login');
+  const handleLogout = async () => {
+    if (loggingOut) return; // Prevent multiple clicks
+    
+    // Confirm logout
+    if (!window.confirm('Are you sure you want to logout?')) {
+      return;
+    }
+
+    setLoggingOut(true);
+    
+    try {
+      // Call logout function from authApi
+      const result = await logout();
+      
+      if (result.success) {
+        // Successfully logged out
+        console.log('Logged out successfully');
+        
+        // Navigate to login page or home page
+        navigate('/login'); // or navigate('/') depending on your route structure
+        
+        // Optional: Show success message
+        // alert('Logged out successfully');
+      } else {
+        console.error('Logout failed:', result.error);
+        alert('Logout failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      alert('An error occurred during logout. Please try again.');
+      
+      // Force clear local storage and redirect if API call fails
+      localStorage.removeItem('customToken');
+      localStorage.removeItem('user');
+      navigate('/login');
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   return (
@@ -152,14 +189,24 @@ const Sidebar = () => {
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="w-full flex items-center space-x-3 p-4 rounded-xl cursor-pointer transition-all duration-200 text-blue-100 hover:bg-red-500/20 hover:text-red-200 hover:border hover:border-red-500/30"
+            disabled={loggingOut}
+            className="w-full flex items-center space-x-3 p-4 rounded-xl cursor-pointer transition-all duration-200 text-blue-100 hover:bg-red-500/20 hover:text-red-200 hover:border hover:border-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <FaSignOutAlt className="text-blue-300" />
-            <span className="font-semibold navigation-font text-left">Logout</span>
+            {loggingOut ? (
+              <>
+                <FaSpinner className="text-blue-300 animate-spin" />
+                <span className="font-semibold navigation-font text-left">Logging out...</span>
+              </>
+            ) : (
+              <>
+                <FaSignOutAlt className="text-blue-300" />
+                <span className="font-semibold navigation-font text-left">Logout</span>
+              </>
+            )}
           </button>
         </div>
 
-        
+       
       </div>
     </>
   );
